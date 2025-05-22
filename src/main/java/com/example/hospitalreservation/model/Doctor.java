@@ -1,13 +1,26 @@
 package com.example.hospitalreservation.model;
 
-public class Doctor {
-    public final Long id;
-    public final int startHour;
-    public final int endHour;
+import jakarta.persistence.*;
+import java.util.List;
 
-    public Doctor(Long id, int startHour, int endHour) {
-        this.id = id;
+@Entity
+public class Doctor {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private int startHour;
+    private int endHour;
+
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
+    private List<Reservation> reservations;
+
+    protected Doctor() {}
+
+    public Doctor(int startHour, int endHour) {
         this.startHour = startHour;
         this.endHour = endHour;
     }
 }
+

@@ -1,13 +1,28 @@
 package com.example.hospitalreservation.model;
 
-public class Patient {
-    public final Long id;
-    public final String name;
-    public final int age;
+import jakarta.persistence.*;
+import java.util.List;
 
-    public Patient(Long id, String name, int age) {
-        this.id = id;
+@Entity
+public class Patient {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+    private int age;
+
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    private List<Reservation> reservations;
+
+    protected Patient() {}  // JPA 기본 생성자
+
+    public Patient(String name, int age) {
         this.name = name;
         this.age = age;
     }
+
+    // getter, setter 필요 시 추가
 }
+
