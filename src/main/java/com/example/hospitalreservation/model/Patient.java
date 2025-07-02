@@ -16,13 +16,14 @@ public class Patient {
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     private List<Reservation> reservations;
 
-    protected Patient() {}  // JPA 기본 생성자
+    protected Patient() {}
 
     public Patient(String name, int age) {
         this.name = name;
         this.age = age;
     }
 
-    // getter, setter 필요 시 추가
+    public String getName() { return name; }
+
 }
 

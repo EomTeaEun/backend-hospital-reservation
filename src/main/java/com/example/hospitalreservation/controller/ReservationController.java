@@ -1,7 +1,9 @@
 package com.example.hospitalreservation.controller;
 
 import com.example.hospitalreservation.RequestDTO;
+import com.example.hospitalreservation.model.Doctor;
 import com.example.hospitalreservation.model.Reservation;
+import com.example.hospitalreservation.model.Patient;
 import com.example.hospitalreservation.service.ReservationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,17 +46,18 @@ public class ReservationController {
     public Map<String, Object> createReservation(@RequestBody RequestDTO request) {
         Map<String, Object> response = new HashMap<>();
 
-        try {
-            Reservation reservation = request.toReservation(null);
-            reservationService.createReservation(reservation);
-            int fee = reservationService.calculateFee(reservation);
+        Doctor doctor  = doctorService.findById(request.getDoctorId())
+                .orElseThrow(() -> new IllegalArgumentException("없는 의사"));
+        Patient patient = patientService.findById(request.getPatientId())
+                .orElseThrow(() -> new IllegalArgumentException("없는 환자"));
+        Reservation reservation = request.toReservation(doctor, patient);
+        reservationService.createReservation(reservation);
+        int fee = reservationService.calculateFee(reservation);
 
-            response.put("reservationId", reservation.id);
-            response.put("message", "예약이 완료되었습니다.");
-            response.put("calculatedFee", fee);
-        } catch (IllegalArgumentException e) {
-            response.put("error", e.getMessage());
-        }
+        response.put("reservationId", reservation.getId());
+        response.put("message", "예약이 완료되었습니다.");
+        response.put("calculatedFee", fee);
+
         return response;
     }
 

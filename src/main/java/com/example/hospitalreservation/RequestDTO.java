@@ -1,5 +1,7 @@
 package com.example.hospitalreservation;
 
+import com.example.hospitalreservation.model.Doctor;
+import com.example.hospitalreservation.model.Patient;
 import com.example.hospitalreservation.model.Reservation;
 import java.time.LocalDateTime;
 
@@ -26,34 +28,34 @@ public class RequestDTO { //예약을 생성할 때 값을 옮겨주는 DTO
         this.reason = reason;
     }
 
-    private Long getPatientId() {
+    public Reservation toReservation(Doctor doctor, Patient patient) {
+        return Reservation.of(
+                doctor,
+                patient,
+                reservationStartTime,
+                reservationEndTime,
+                reason
+        );
+    }
+
+    public Long getPatientId() {
         return patientId;
     }
 
-    private Long getDoctorId() {
+    public Long getDoctorId() {
         return doctorId;
     }
 
-    private LocalDateTime getReservationStartTime() {
+    public LocalDateTime getReservationStartTime() {
         return reservationStartTime;
     }
 
-    private LocalDateTime getReservationEndTime() {
+    public LocalDateTime getReservationEndTime() {
         return reservationEndTime;
     }
 
-    private String getReason() {
+    public String getReason() {
         return reason;
     }
 
-    public Reservation toReservation(Long id) {
-        return new Reservation(
-                id,
-                getDoctorId(),
-                getPatientId(),
-                getReservationStartTime(),
-                getReservationEndTime(),
-                getReason()
-        );
-    }
 }
