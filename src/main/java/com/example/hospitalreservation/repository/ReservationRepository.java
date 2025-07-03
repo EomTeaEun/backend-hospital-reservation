@@ -7,6 +7,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.hospitalreservation.model.Reservation;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ReservationRepository extends JpaRepository<Reservation, Long> {
+}
+
+/*
 @Repository
 public class ReservationRepository {
 
@@ -30,3 +37,4 @@ public class ReservationRepository {
         return reservations.removeIf(r -> r.getId().equals(id));
     }
 }
+*/

@@ -5,11 +5,13 @@ import com.example.hospitalreservation.model.Doctor;
 import com.example.hospitalreservation.model.Reservation;
 import com.example.hospitalreservation.model.Patient;
 import com.example.hospitalreservation.service.ReservationService;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import com.example.hospitalreservation.service.DoctorService;
+import com.example.hospitalreservation.service.PatientService;
+import com.example.hospitalreservation.service.DoctorService;
+import com.example.hospitalreservation.service.PatientService;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,9 +23,15 @@ import java.util.Map;
 public class ReservationController {
     // TODO : 주입 받아야 할 객체를 설정해주세요. (종속성을 직접 넣어준다...?)
     private final ReservationService reservationService;
+    private final DoctorService doctorService;
+    private final PatientService patientService;
 
-    public ReservationController(ReservationService reservationService) {
+    public ReservationController(ReservationService reservationService,
+                                 DoctorService doctorService,
+                                 PatientService patientService) {
         this.reservationService = reservationService;
+        this.doctorService = doctorService;
+        this.patientService = patientService;
     }
 
     // TODO : 필요한 어노테이션을 작성해주세요.

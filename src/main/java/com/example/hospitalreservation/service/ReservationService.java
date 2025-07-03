@@ -4,8 +4,8 @@ import com.example.hospitalreservation.FeeCalFactory;
 import com.example.hospitalreservation.model.Reservation;
 import com.example.hospitalreservation.repository.ReservationRepository;
 import org.springframework.stereotype.Service;
+import com.example.hospitalreservation.service.ReservationService;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 // TODO : 서비스 레이어에서 필요한 어노테이션을 작성해주세요.
@@ -43,10 +43,10 @@ public class ReservationService {
 
     // TODO : 예약을 취소하는 코드를 작성해주세요.
     public void cancelReservation(Long id, String reason) {
-        boolean remove = reservationRepository.deleteById(id);
-        if (!remove){
+        if (!reservationRepository.existsById(id)) {
             throw new IllegalArgumentException("존재하지 않는 예약입니다.");
         }
+        reservationRepository.deleteById(id);
     }
 
     //예약 진료비 계산 코드
