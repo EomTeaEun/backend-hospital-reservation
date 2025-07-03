@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.hospitalreservation.service.DoctorService;
 import com.example.hospitalreservation.service.PatientService;
-import com.example.hospitalreservation.service.DoctorService;
-import com.example.hospitalreservation.service.PatientService;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 // TODO : 컨트롤러에 필요한 어노테이션을 작성해주세요.
 // TODO : 요청 경로는 templates를 참고하여 작성해주세요.
@@ -58,8 +57,10 @@ public class ReservationController {
                 .orElseThrow(() -> new IllegalArgumentException("없는 의사"));
         Patient patient = patientService.findById(request.getPatientId())
                 .orElseThrow(() -> new IllegalArgumentException("없는 환자"));
+
         Reservation reservation = request.toReservation(doctor, patient);
         reservationService.createReservation(reservation);
+
         int fee = reservationService.calculateFee(reservation);
 
         response.put("reservationId", reservation.getId());
@@ -70,7 +71,7 @@ public class ReservationController {
     }
 
     // TODO : 필요한 어노테이션을 작성해주세요.
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String cancelReservation(@PathVariable Long id, String reason) {
         // TODO : 예약을 취소하는 코드를 작성해주세요.
         reservationService.cancelReservation(id, reason);
